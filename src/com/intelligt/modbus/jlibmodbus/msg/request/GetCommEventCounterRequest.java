@@ -54,7 +54,7 @@ final public class GetCommEventCounterRequest extends ModbusRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         GetCommEventCounterResponse response = new GetCommEventCounterResponse();
         response.setServerAddress(getServerAddress());
         response.setEventCount(dataHolder.getCommStatus().getEventCount());

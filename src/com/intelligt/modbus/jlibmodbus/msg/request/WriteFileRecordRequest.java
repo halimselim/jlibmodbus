@@ -91,11 +91,11 @@ final public class WriteFileRecordRequest extends ModbusRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         WriteFileRecordResponse response = (WriteFileRecordResponse) getResponse();
         response.setFileRecord(getFileRecord());
         try {
-            dataHolder.writeFileRecord(response.getFileRecord());
+            dataHolder.writeFileRecord(slaveid,response.getFileRecord());
         } catch (ModbusProtocolException e) {
             response.setException();
             response.setModbusExceptionCode(e.getException().getValue());

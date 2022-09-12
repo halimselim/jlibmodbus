@@ -43,11 +43,11 @@ public class ReadHoldingRegistersRequest extends AbstractMultipleRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         ReadHoldingRegistersResponse response = (ReadHoldingRegistersResponse) getResponse();
         response.setServerAddress(getServerAddress());
         try {
-            int[] range = dataHolder.readHoldingRegisterRange(getStartAddress(), getQuantity());
+            int[] range = dataHolder.readHoldingRegisterRange(slaveid,getStartAddress(), getQuantity());
             response.setBuffer(range);
         } catch (ModbusProtocolException e) {
             response.setException();

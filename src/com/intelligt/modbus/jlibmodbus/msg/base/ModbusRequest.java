@@ -85,7 +85,7 @@ abstract public class ModbusRequest extends ModbusMessage implements ModbusMessa
 
     abstract public int requestSize();
 
-    abstract public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException;
+    abstract public ModbusResponse process(DataHolder dataHolder, int slaveid) throws ModbusNumberException;
 
     abstract protected boolean validateResponseImpl(ModbusResponse response);
 

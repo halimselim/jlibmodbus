@@ -93,11 +93,11 @@ final public class ReadFileRecordRequest extends ModbusRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         ReadFileRecordResponse response = (ReadFileRecordResponse) getResponse();
         try {
             for (ModbusFileRecord r : records) {
-                dataHolder.readFileRecord(r);
+                dataHolder.readFileRecord(slaveid,r);
             }
             /*
             TODO: it's required to reduce the number of data-copying-operations here

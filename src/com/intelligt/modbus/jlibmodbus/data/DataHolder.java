@@ -43,7 +43,7 @@ public class DataHolder {
     private ModbusCoils discreteInputs = null;
     private ModbusHoldingRegisters holdingRegisters = null;
     private ModbusHoldingRegisters inputRegisters = null;
-    private SlaveId slaveId = null;
+//    private SlaveId slaveId = null;
     private ExceptionStatus exceptionStatus = null;
     private ReadDeviceIdentificationInterface readDeviceIdentificationInterface = null;
 
@@ -52,57 +52,57 @@ public class DataHolder {
             throw new IllegalDataAddressException(offset);
     }
 
-    public int readHoldingRegister(int offset) throws IllegalDataAddressException {
+    public int readHoldingRegister(int slaveid,int offset) throws IllegalDataAddressException {
         checkPointer(holdingRegisters, offset);
         return holdingRegisters.get(offset);
     }
 
-    public int[] readHoldingRegisterRange(int offset, int quantity) throws IllegalDataAddressException {
+    public int[] readHoldingRegisterRange(int slaveid,int offset, int quantity) throws IllegalDataAddressException {
         checkPointer(holdingRegisters, offset);
         return holdingRegisters.getRange(offset, quantity);
     }
 
-    public void writeHoldingRegister(int offset, int value) throws IllegalDataAddressException, IllegalDataValueException {
+    public void writeHoldingRegister(int slaveid,int offset, int value) throws IllegalDataAddressException, IllegalDataValueException {
         checkPointer(holdingRegisters, offset);
         holdingRegisters.set(offset, value);
     }
 
-    public void writeHoldingRegisterRange(int offset, int[] range) throws IllegalDataAddressException, IllegalDataValueException {
+    public void writeHoldingRegisterRange(int slaveid,int offset, int[] range) throws IllegalDataAddressException, IllegalDataValueException {
         checkPointer(holdingRegisters, offset);
         holdingRegisters.setRange(offset, range);
     }
 
-    public int[] readInputRegisterRange(int offset, int quantity) throws IllegalDataAddressException {
+    public int[] readInputRegisterRange(int slaveid,int offset, int quantity) throws IllegalDataAddressException {
         checkPointer(inputRegisters, offset);
         return inputRegisters.getRange(offset, quantity);
     }
 
-    public int[] readFifoQueue(int fifoPointerAddress) throws IllegalDataValueException, IllegalDataAddressException {
+    public int[] readFifoQueue(int slaveid,int fifoPointerAddress) throws IllegalDataValueException, IllegalDataAddressException {
         FifoQueue fifoQueue = fifoMap.get(fifoPointerAddress);
         checkPointer(fifoQueue, fifoPointerAddress);
         return fifoQueue.get();
     }
 
-    public boolean[] readCoilRange(int offset, int quantity) throws IllegalDataAddressException, IllegalDataValueException {
+    public boolean[] readCoilRange(int slaveid,int offset, int quantity) throws IllegalDataAddressException, IllegalDataValueException {
         checkPointer(coils, offset);
         return coils.getRange(offset, quantity);
     }
 
-    public void writeCoil(int offset, boolean value) throws IllegalDataAddressException, IllegalDataValueException {
+    public void writeCoil(int slaveid,int offset, boolean value) throws IllegalDataAddressException, IllegalDataValueException {
         checkPointer(coils, offset);
         coils.set(offset, value);
     }
 
-    public void writeCoilRange(int offset, boolean[] range) throws IllegalDataAddressException, IllegalDataValueException {
+    public void writeCoilRange(int slaveid,int offset, boolean[] range) throws IllegalDataAddressException, IllegalDataValueException {
         checkPointer(coils, offset);
         coils.setRange(offset, range);
     }
 
-    public byte[] readSlaveId() throws IllegalFunctionException {
-        if (slaveId == null)
-            throw new IllegalFunctionException(ModbusFunctionCode.REPORT_SLAVE_ID.toInt());
-        return slaveId.get();
-    }
+//    public byte[] readSlaveId() throws IllegalFunctionException {
+//        if (slaveId == null)
+//            throw new IllegalFunctionException(ModbusFunctionCode.REPORT_SLAVE_ID.toInt());
+//        return slaveId.get();
+//    }
 
     public int readExceptionStatus() throws IllegalFunctionException {
         if (exceptionStatus == null)
@@ -110,19 +110,19 @@ public class DataHolder {
         return exceptionStatus.get();
     }
 
-    public boolean[] readDiscreteInputRange(int offset, int quantity) throws IllegalDataAddressException, IllegalDataValueException {
+    public boolean[] readDiscreteInputRange(int slaveid,int offset, int quantity) throws IllegalDataAddressException, IllegalDataValueException {
         checkPointer(discreteInputs, offset);
         return discreteInputs.getRange(offset, quantity);
     }
 
-    public void readFileRecord(ModbusFileRecord fileRecord) throws IllegalDataAddressException, IllegalDataValueException {
-        ModbusFile file = getFile(fileRecord.getFileNumber());
+    public void readFileRecord(int slaveid,ModbusFileRecord fileRecord) throws IllegalDataAddressException, IllegalDataValueException {
+        ModbusFile file = getFile(slaveid,fileRecord.getFileNumber());
         checkPointer(file, fileRecord.getFileNumber());
         fileRecord.writeRegisters(file.read(fileRecord.getRecordNumber(), fileRecord.getRecordLength()));
     }
 
-    public void writeFileRecord(ModbusFileRecord fileRecord) throws IllegalDataAddressException, IllegalDataValueException {
-        ModbusFile file = getFile(fileRecord.getFileNumber());
+    public void writeFileRecord(int slaveid,ModbusFileRecord fileRecord) throws IllegalDataAddressException, IllegalDataValueException {
+        ModbusFile file = getFile(slaveid,fileRecord.getFileNumber());
         checkPointer(file, fileRecord.getFileNumber());
         file.write(fileRecord.getRecordNumber(), fileRecord.getRegisters());
     }
@@ -163,13 +163,13 @@ public class DataHolder {
         return commStatus;
     }
 
-    public SlaveId getSlaveId() {
-        return slaveId;
-    }
-
-    public void setSlaveId(SlaveId slaveId) {
-        this.slaveId = slaveId;
-    }
+//    public SlaveId getSlaveId() {
+//        return slaveId;
+//    }
+//
+//    public void setSlaveId(SlaveId slaveId) {
+//        this.slaveId = slaveId;
+//    }
 
     public ExceptionStatus getExceptionStatus() {
         return exceptionStatus;
@@ -198,7 +198,7 @@ public class DataHolder {
         fileMap.put(file.getNumber(), file);
     }
 
-    public ModbusFile getFile(int number) throws IllegalDataAddressException {
+    public ModbusFile getFile(int slaveid,int number) throws IllegalDataAddressException {
         ModbusFile file = fileMap.get(number);
         if (file == null)
             throw new IllegalDataAddressException(number);

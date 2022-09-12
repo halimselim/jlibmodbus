@@ -53,15 +53,20 @@ class RequestHandlerTCP extends RequestHandler {
                     ModbusTransport transport = getConnection().getTransport();
                     ModbusRequest request = (ModbusRequest) transport.readRequest();
 
-                    if (/*default tcp session*/request.getServerAddress() == Modbus.TCP_DEFAULT_ID ||
-                            /*gateway*/request.getServerAddress() == getSlave().getServerAddress()) {
-                        ModbusMessage response = request.process(dataHolder);
+//                    System.out.println("istek suna " + request.getServerAddress());
+
+                    if (/*default tcp session*/request.getServerAddress() == Modbus.TCP_DEFAULT_ID
+                            || true 
+//                            || /*gateway*/ request.getServerAddress() == getSlave().getServerAddress()   // to respond to all slave requests 
+                            ) {
+                        ModbusMessage response = request.process(dataHolder,request.getServerAddress());
                         response.setTransactionId(request.getTransactionId());
-                        if (request.getServerAddress() != Modbus.BROADCAST_ID)
+                        if (request.getServerAddress() != Modbus.BROADCAST_ID) {
                             transport.send(response);
-                    } else if (/*broadcast*/ request.getServerAddress() == Modbus.BROADCAST_ID && getSlave().isBroadcastEnabled()) {
+                        }
+                    } else if (/*broadcast*/request.getServerAddress() == Modbus.BROADCAST_ID && getSlave().isBroadcastEnabled()) {
                         //we do not answer broadcast requests
-                        request.process(dataHolder);
+                        request.process(dataHolder,request.getServerAddress());
                     }
                 } catch (ModbusNumberException e) {
                     Modbus.log().warning(e.getLocalizedMessage());

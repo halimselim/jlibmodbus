@@ -36,11 +36,11 @@ final public class ReadInputRegistersRequest extends ReadHoldingRegistersRequest
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         ReadInputRegistersResponse response = (ReadInputRegistersResponse) getResponse();
         response.setServerAddress(getServerAddress());
         try {
-            int[] range = dataHolder.readInputRegisterRange(getStartAddress(), getQuantity());
+            int[] range = dataHolder.readInputRegisterRange(slaveid,getStartAddress(), getQuantity());
             response.setBuffer(range);
         } catch (ModbusProtocolException e) {
             response.setException();

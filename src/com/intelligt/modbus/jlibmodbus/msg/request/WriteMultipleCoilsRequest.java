@@ -54,12 +54,12 @@ final public class WriteMultipleCoilsRequest extends AbstractWriteMultipleReques
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         WriteMultipleCoilsResponse response = (WriteMultipleCoilsResponse) getResponse();
         response.setStartAddress(getStartAddress());
         response.setQuantity(getQuantity());
         try {
-            dataHolder.writeCoilRange(getStartAddress(), getCoils());
+            dataHolder.writeCoilRange(slaveid,getStartAddress(), getCoils());
         } catch (ModbusProtocolException e) {
             response.setException();
             response.setModbusExceptionCode(e.getException().getValue());

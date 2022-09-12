@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.intelligt.modbus.jlibmodbus.Modbus;
 import com.intelligt.modbus.jlibmodbus.data.CommStatus;
+import com.intelligt.modbus.jlibmodbus.data.ModbusHoldingRegisters;
 import com.intelligt.modbus.jlibmodbus.exception.ModbusIOException;
 import com.intelligt.modbus.jlibmodbus.exception.ModbusNumberException;
 import com.intelligt.modbus.jlibmodbus.exception.ModbusProtocolException;
@@ -194,11 +195,18 @@ abstract public class ModbusMaster implements FrameEventListenerList {
      * @throws ModbusNumberException   if response is invalid
      * @throws ModbusIOException       if remote slave is unavailable
      */
-    final public int[] readHoldingRegisters(int serverAddress, int startAddress, int quantity) throws
+//    final public int[] readHoldingRegisters(int serverAddress, int startAddress, int quantity) throws
+//            ModbusProtocolException, ModbusNumberException, ModbusIOException {
+//        ModbusRequest request = ModbusRequestBuilder.getInstance().buildReadHoldingRegisters(serverAddress, startAddress, quantity);
+//        ReadHoldingRegistersResponse response = (ReadHoldingRegistersResponse) processRequest(request);
+//        return response.getRegisters();
+//    }
+    
+    final public ModbusHoldingRegisters readHoldingRegisters(int serverAddress, int startAddress, int quantity) throws
             ModbusProtocolException, ModbusNumberException, ModbusIOException {
         ModbusRequest request = ModbusRequestBuilder.getInstance().buildReadHoldingRegisters(serverAddress, startAddress, quantity);
         ReadHoldingRegistersResponse response = (ReadHoldingRegistersResponse) processRequest(request);
-        return response.getRegisters();
+        return response.getHoldingRegisters();
     }
 
     /**

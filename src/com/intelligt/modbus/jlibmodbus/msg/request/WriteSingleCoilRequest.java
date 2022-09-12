@@ -41,12 +41,12 @@ final public class WriteSingleCoilRequest extends WriteSingleRegisterRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         WriteSingleCoilResponse response = (WriteSingleCoilResponse) getResponse();
         response.setStartAddress(getStartAddress());
         response.setValue(getValue());
         try {
-            dataHolder.writeCoil(getStartAddress(), getCoil());
+            dataHolder.writeCoil(slaveid,getStartAddress(), getCoil());
         } catch (ModbusProtocolException e) {
             response.setException();
             response.setModbusExceptionCode(e.getException().getValue());

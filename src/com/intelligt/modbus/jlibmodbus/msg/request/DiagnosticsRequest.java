@@ -85,7 +85,7 @@ public class DiagnosticsRequest extends ModbusRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         DiagnosticsResponse response = new DiagnosticsResponse();
         response.setServerAddress(getServerAddress());
         response.setSubFunctionCode(getSubFunctionCode());

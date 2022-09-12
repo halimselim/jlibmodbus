@@ -62,11 +62,11 @@ public class ReadWriteMultipleRegistersRequest extends ModbusRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         ReadWriteMultipleRegistersResponse response = (ReadWriteMultipleRegistersResponse) getResponse();
         try {
-            dataHolder.writeHoldingRegisterRange(writer.getStartAddress(), writer.getRegisters());
-            int[] range = dataHolder.readHoldingRegisterRange(reader.getStartAddress(), reader.getQuantity());
+            dataHolder.writeHoldingRegisterRange(slaveid,writer.getStartAddress(), writer.getRegisters());
+            int[] range = dataHolder.readHoldingRegisterRange(slaveid,reader.getStartAddress(), reader.getQuantity());
             response.setBuffer(range);
         } catch (ModbusProtocolException e) {
             response.setException();

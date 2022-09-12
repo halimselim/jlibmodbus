@@ -55,15 +55,22 @@ final public class ReportSlaveIdRequest extends ModbusRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder, int slaveid) throws ModbusNumberException {
         ReportSlaveIdResponse response = (ReportSlaveIdResponse) getResponse();
-        try {
-            byte[] slaveId = dataHolder.readSlaveId();
-            response.setSlaveId(slaveId);
-        } catch (ModbusProtocolException e) {
-            response.setException();
-            response.setModbusExceptionCode(e.getException().getValue());
-        }
+//        try {
+            //            byte[] slaveId = dataHolder.readSlaveId();
+            //            response.setSlaveId(slaveId);
+            byte[] bb = new byte[]{
+                (byte) ((slaveid >> 24) & 0xff),
+                (byte) ((slaveid >> 16) & 0xff),
+                (byte) ((slaveid >> 8) & 0xff),
+                (byte) ((slaveid >> 0) & 0xff)
+            };
+            response.setSlaveId(bb);
+//        } catch (ModbusProtocolException e) {
+//            response.setException();
+//            response.setModbusExceptionCode(e.getException().getValue());
+//        }
         return response;
     }
 

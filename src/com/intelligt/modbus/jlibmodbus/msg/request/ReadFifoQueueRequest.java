@@ -60,11 +60,11 @@ public class ReadFifoQueueRequest extends AbstractDataRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         ReadFifoQueueResponse response = new ReadFifoQueueResponse();
         response.setServerAddress(getServerAddress());
         try {
-            int[] r = dataHolder.readFifoQueue(getStartAddress());
+            int[] r = dataHolder.readFifoQueue(slaveid,getStartAddress());
             response.setFifoValueRegister(r);
         } catch (ModbusProtocolException e) {
             response.setException();

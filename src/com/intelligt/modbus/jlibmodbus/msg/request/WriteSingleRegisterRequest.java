@@ -48,12 +48,12 @@ public class WriteSingleRegisterRequest extends AbstractDataRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         WriteSingleRegisterResponse response = (WriteSingleRegisterResponse) getResponse();
         response.setStartAddress(getStartAddress());
         response.setValue(getValue());
         try {
-            dataHolder.writeHoldingRegister(getStartAddress(), getValue());
+            dataHolder.writeHoldingRegister(slaveid,getStartAddress(), getValue());
         } catch (ModbusProtocolException e) {
             response.setException();
             response.setModbusExceptionCode(e.getException().getValue());

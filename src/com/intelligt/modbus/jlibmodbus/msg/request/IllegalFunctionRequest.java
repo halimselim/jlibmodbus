@@ -57,7 +57,7 @@ public class IllegalFunctionRequest extends ModbusRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         IllegalFunctionResponse response = (IllegalFunctionResponse) getResponse();
         response.setFunctionCode(getFunction());
         return response;

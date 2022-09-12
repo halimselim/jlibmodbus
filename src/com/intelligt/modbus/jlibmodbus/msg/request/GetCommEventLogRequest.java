@@ -55,7 +55,7 @@ final public class GetCommEventLogRequest extends ModbusRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         GetCommEventLogResponse response = new GetCommEventLogResponse();
         response.setServerAddress(getServerAddress());
         CommStatus commStatus = dataHolder.getCommStatus();

@@ -73,7 +73,7 @@ public class EncapsulatedInterfaceTransportRequest extends ModbusRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder,int slaveid) throws ModbusNumberException {
         EncapsulatedInterfaceTransportResponse response = new EncapsulatedInterfaceTransportResponse();
         response.setServerAddress(getServerAddress());
         mei.process(dataHolder);

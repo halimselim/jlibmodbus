@@ -29,7 +29,6 @@ import com.intelligt.modbus.jlibmodbus.utils.ModbusFunctionCode;
  * Authors: Vladislav Y. Kochedykov, software engineer.
  * email: vladislav.kochedykov@gmail.com
  */
-
 final public class ReadDiscreteInputsRequest extends ReadCoilsRequest {
 
     public ReadDiscreteInputsRequest() {
@@ -42,10 +41,10 @@ final public class ReadDiscreteInputsRequest extends ReadCoilsRequest {
     }
 
     @Override
-    public ModbusResponse process(DataHolder dataHolder) throws ModbusNumberException {
+    public ModbusResponse process(DataHolder dataHolder, int slaveid) throws ModbusNumberException {
         ReadDiscreteInputsResponse response = (ReadDiscreteInputsResponse) getResponse();
         try {
-            boolean[] range = dataHolder.readDiscreteInputRange(getStartAddress(), getQuantity());
+            boolean[] range = dataHolder.readDiscreteInputRange(slaveid, getStartAddress(), getQuantity());
             response.setCoils(range);
         } catch (ModbusProtocolException e) {
             response.setException();

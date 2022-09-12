@@ -65,7 +65,7 @@ class RequestHandlerSerial extends RequestHandler {
                     }
                     if (request.getServerAddress() == getSlave().getServerAddress()) {
                         try {
-                            ModbusResponse response = request.process(dataHolder);
+                            ModbusResponse response = request.process(dataHolder,request.getServerAddress());
                             commStatus.incSlaveMessageCounter();
                             if (response.isException()) {
                                 commStatus.addEvent(ModbusCommEventSend.createExceptionSentRead());
@@ -95,7 +95,7 @@ class RequestHandlerSerial extends RequestHandler {
                         }
                     } else if (/*broadcast*/ request.getServerAddress() == Modbus.BROADCAST_ID && getSlave().isBroadcastEnabled()) {
                         //we do not answer these requests to avoid collisions on the bus
-                        request.process(dataHolder);
+                        request.process(dataHolder,request.getServerAddress());
                     }
                 } catch (ModbusChecksumException e) {
                     commStatus.incCommErrorCounter();
