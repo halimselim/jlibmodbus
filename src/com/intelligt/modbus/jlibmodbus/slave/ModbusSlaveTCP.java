@@ -50,6 +50,7 @@ public class ModbusSlaveTCP extends ModbusSlave implements Runnable {
     public ModbusSlaveTCP(TcpParameters tcp, int poolsSize) {
         this.tcp = new TcpParameters(tcp);
         threadPool = Executors.newFixedThreadPool(poolsSize);
+        
     }
 
     @Override
